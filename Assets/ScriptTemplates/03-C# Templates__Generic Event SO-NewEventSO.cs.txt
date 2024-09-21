@@ -1,0 +1,10 @@
+using UnityEngine;
+
+namespace EventSystem.SO
+{
+    [CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Events/#SCRIPTNAME#")]
+    public class #SCRIPTNAME# : GenericEventSO<>
+    {
+        #NOTRIM#
+    }
+}
