@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using UnityEngine;
 using EventSystem.SO;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -7,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 direction;
     private Vector2 nextDirection = Vector2.zero;
+    private bool endGame = false;
 
     [SerializeField]
     private int speed = 1;
@@ -14,11 +17,23 @@ public class PlayerMovement : MonoBehaviour
     private LayerMask obstacleLayer;
     [SerializeField] 
     private Vector2EventSO directionEvent;
+    [SerializeField]
+    private GameStateEventSO gameStateEvent;
     
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         directionEvent.PropertyChanged += DirectionEvent_PropertyChanged;
+        gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+    }
+
+    private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        GenericEventSO<GameState> s = (GenericEventSO<GameState>)sender;
+        if (s.Value == GameState.EndGame || s.Value == GameState.Death)
+        {
+            endGame = true;
+        }
     }
 
     private void DirectionEvent_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -43,7 +58,8 @@ public class PlayerMovement : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x);
         transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
         
-        rb.MovePosition(position + translation);
+        if (!endGame)
+            rb.MovePosition(position + translation);
     }
 
     private void SetDirection(Vector2 dir)
