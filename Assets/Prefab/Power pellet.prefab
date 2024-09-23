@@ -144,3 +144,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreButton: {fileID: 11400000, guid: ecf596d4efd148b47947e2a59e49267e, type: 2}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}

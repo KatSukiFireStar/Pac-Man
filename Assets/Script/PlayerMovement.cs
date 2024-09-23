@@ -33,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
         if (s.Value == GameState.EndGame || s.Value == GameState.Death)
         {
             endGame = true;
+        }else if (s.Value == GameState.Starting)
+        {
+            endGame = false;
         }
     }
 

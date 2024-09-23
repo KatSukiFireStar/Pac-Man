@@ -1,45 +1,30 @@
-using UnityEngine;
+using System.ComponentModel;
 using EventSystem.SO;
+using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class UpdateAnimator : MonoBehaviour
 {
-	
 	private Animator animator;
-
-	[SerializeField] 
-	private Vector2EventSO directionEvent; 
+	
+	[SerializeField]
+	private GameStateEventSO gameStateEvent;
 	
 	private void Awake()
 	{
 		animator = gameObject.GetComponent<Animator>();
+		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 	}
 
-	private void UpdateDirection(Vector2 direction)
+	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
 	{
-		if (direction.x < 0)
+		GenericEventSO<GameState> s = (GenericEventSO<GameState>)sender;
+		if (s.Value == GameState.EndGame || s.Value == GameState.Death)
 		{
-			animator.SetBool("up", false);
-			animator.SetBool("right", false);
-			animator.SetBool("down", false);
-			animator.SetBool("left", true);
-		} else if (direction.x > 0)
+			animator.enabled = false;
+		}else if (s.Value == GameState.Starting)
 		{
-			animator.SetBool("up", false);
-			animator.SetBool("right", true);
-			animator.SetBool("down", false);
-			animator.SetBool("left", false);
-		} else if (direction.y > 0)
-		{
-			animator.SetBool("up", true);
-			animator.SetBool("right", false);
-			animator.SetBool("down", false);
-			animator.SetBool("left", false);
-		} else if (direction.y < 0)
-		{
-			animator.SetBool("up", false);
-			animator.SetBool("right", false);
-			animator.SetBool("down", true);
-			animator.SetBool("left", false);
+			animator.enabled = true;
 		}
 	}
 }

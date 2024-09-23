@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7939649699969649685}
   - component: {fileID: 1978617407024142717}
   - component: {fileID: 3123450316881662280}
+  - component: {fileID: 8796421835749757937}
   m_Layer: 6
   m_Name: PacMan
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1854907621
-  m_SortingLayer: -2
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1f9604f5749fde646a59a72c9ee1cd3a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -187,6 +188,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f6cfd9dd426ff764680877cca86bb96b, type: 2}
   - {fileID: 11400000, guid: 28c656412e773ea4196d3f98e107121e, type: 2}
   - {fileID: 11400000, guid: c11ce7f8466a6b14b9615ce77c58c825, type: 2}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
 --- !u!95 &3123450316881662280
 Animator:
   serializedVersion: 5
@@ -208,3 +210,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8796421835749757937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272064509098931590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fd8f8b70011140b2d0eb4236e76d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
