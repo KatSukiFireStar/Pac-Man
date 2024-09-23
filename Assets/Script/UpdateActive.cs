@@ -24,7 +24,11 @@ public class UpdateActive : MonoBehaviour
 		}else if (s.Value == GameState.EndGame && stateToUpdate == GameState.EndGame)
 		{
 			gameObject.SetActive(true);
-		}else if (s.Value == GameState.Starting)
+		}else if (s.Value == GameState.Playing && stateToUpdate == GameState.Playing)
+		{
+			gameObject.SetActive(true);
+		}
+		else if (s.Value == GameState.Starting)
 		{
 			gameObject.SetActive(false);
 		}

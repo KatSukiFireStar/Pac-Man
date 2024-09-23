@@ -189,6 +189,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28c656412e773ea4196d3f98e107121e, type: 2}
   - {fileID: 11400000, guid: c11ce7f8466a6b14b9615ce77c58c825, type: 2}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
+  gameStateButton: {fileID: 11400000, guid: 6f903f5598edaac4fb0b3f6146b5caa6, type: 2}
 --- !u!95 &3123450316881662280
 Animator:
   serializedVersion: 5

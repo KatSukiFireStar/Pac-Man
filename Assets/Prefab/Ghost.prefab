@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8524685964606126605}
   - component: {fileID: 3318902865907034138}
   - component: {fileID: 918067546467774599}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   gameStateButton: {fileID: 11400000, guid: 132763772e924a641b37ab9cbc1ac17d, type: 2}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
 --- !u!114 &918067546467774599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3132560442889837025}
   - component: {fileID: 3692039657677270305}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +246,7 @@ GameObject:
   - component: {fileID: 123700733097013312}
   - component: {fileID: 4673669884265050535}
   - component: {fileID: 2947756566981932329}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,3 +333,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 0}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}

@@ -15,6 +15,9 @@ public class PlayerInput : MonoBehaviour
 	
 	[SerializeField]
 	private GameStateEventSO gameStateEvent;
+	
+	[SerializeField]
+	private GameStateButtonSO gameStateButton;
 
 	private bool endGame;
 	private Vector2 defaultPosition;
@@ -24,6 +27,7 @@ public class PlayerInput : MonoBehaviour
 		endGame = false;
 		defaultPosition = transform.position;
 		directionButton[2].Trigger();
+		gameStateButton.Trigger();
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 	}
 
@@ -32,6 +36,7 @@ public class PlayerInput : MonoBehaviour
 		transform.position = defaultPosition;
 		endGame = false;
 		directionButton[2].Trigger();
+		gameStateButton.Trigger();
 	}
 	
 	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
