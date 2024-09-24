@@ -9,7 +9,7 @@ public class Node
 		get => position; 
 	}
 
-	Node(Vector3 position)
+	public Node(Vector3 position)
 	{
 		this.position = position;
 	}

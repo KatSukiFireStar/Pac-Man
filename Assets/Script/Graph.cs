@@ -9,7 +9,7 @@ public class Graph
 	public List<Node> Nodes { get => nodes; }
 	public List<Edge> Edges { get => edges; }
 	
-	Graph(){}
+	public Graph(){}
 
 	public void AddNode(Node node)
 	{
@@ -19,5 +19,17 @@ public class Graph
 	public void AddEdge(Edge edge)
 	{
 		edges.Add(edge);
+	}
+
+	public void PrintGraph()
+	{
+		foreach (Node node in nodes)
+		{
+			Debug.Log(node.Position);
+		}
+		foreach (Edge edge in edges)
+		{
+			Debug.Log("From: " + edge.From.Position + " to " + edge.To.Position);
+		}
 	}
 }
