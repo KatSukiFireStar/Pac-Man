@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2EventSO directionEvent;
     [SerializeField]
     private GameStateEventSO gameStateEvent;
+    [SerializeField]
+    private Vector2EventSO positionEvent;
     
     private void Awake()
     {
@@ -60,9 +62,15 @@ public class PlayerMovement : MonoBehaviour
         
         float angle = Mathf.Atan2(direction.y, direction.x);
         transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
-        
+
         if (!endGame)
-            rb.MovePosition(position + translation);
+        {
+            Vector2 nextPosition = position + translation;
+            rb.MovePosition(nextPosition);
+            Vector2 nP = new(Mathf.Round(nextPosition.x), Mathf.Round(nextPosition.y));
+            positionEvent.Value = nP;
+        }
+            
     }
 
     private void SetDirection(Vector2 dir)

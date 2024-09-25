@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Node
 {
-	private Vector3 position;
+	private Vector2 position;
 
-	public Vector3 Position
+	public Vector2 Position
 	{
 		get => position; 
 	}
 
-	public Node(Vector3 position)
+	public Node(Vector2 position)
 	{
 		this.position = position;
 	}

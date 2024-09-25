@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8524685964606126605}
   - component: {fileID: 3318902865907034138}
   - component: {fileID: 918067546467774599}
+  - component: {fileID: 400786621547741955}
   m_Layer: 7
   m_Name: Ghost
   m_TagString: Untagged
@@ -151,6 +152,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
+--- !u!114 &400786621547741955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36357160069161304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d941bf31676156e4e86c8b2dba177e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphEvent: {fileID: 11400000, guid: 61d7da0844c79e3439f325ae7875817f, type: 2}
+  speed: 7
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  positionEvent: {fileID: 11400000, guid: 681b9cbcd848525448bd848077e46d9b, type: 2}
 --- !u!1 &6578477705961650247
 GameObject:
   m_ObjectHideFlags: 0

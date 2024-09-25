@@ -25,4 +25,9 @@ public class Edge
 		this.to = to;
 		this.value = 1;
 	}
+
+	public override string ToString()
+	{
+		return "From: " + from.Position + " to " + to.Position;
+	}
 }

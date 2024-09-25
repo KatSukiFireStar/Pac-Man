@@ -1,3 +1,4 @@
+using EventSystem.SO;
 using UnityEngine;
 
 public class GraphCreator : MonoBehaviour
@@ -5,25 +6,42 @@ public class GraphCreator : MonoBehaviour
 	[SerializeField]
 	private LayerMask obstacleLayer;
 	
+	[SerializeField]
+	private GraphEventSO graphEvent;
+	
 	private Graph graph;
 
-	void Start()
+	void Awake()
 	{
 		graph = new();
 		Node n = new(transform.position);
 		graph.AddNode(n);
 		CreateGraph(n);
-		graph.PrintGraph();
+		// graph.PrintGraph();
+
+		// (bool, Edge, Edge) a = graph.DuplicateEdge();
+		// if (a.Item1)
+		// 	Debug.Log(a.Item1 + " " + a.Item2.ToString() + " " + a.Item3.ToString());
+
+		graphEvent.Value = graph;
 	}
 
-	private void CreateGraph(Node currentNode)
+	private void CreateGraph(Node node)
+	{
+		CreateGraph(node, Vector2.right);
+		CreateGraph(node, Vector2.down);
+		CreateGraph(node, Vector2.up);
+		CreateGraph(node, Vector2.left);
+	}
+
+	private void CreateGraph(Node currentNode, Vector2 direction)
 	{
 		bool add = true;
 		bool goIn = false;
-		if (!Occupied(currentNode.Position, Vector2.right))
+		if (!Occupied(currentNode.Position, direction))
 		{
-			Node newNode = new(currentNode.Position + Vector3.right);
-			if (!graph.Nodes.Contains(newNode))
+			Node newNode = new(currentNode.Position + direction);
+			if (!graph.ContainsNode(newNode))
 			{
 				graph.AddNode(newNode);
 				goIn = true;
@@ -31,8 +49,7 @@ public class GraphCreator : MonoBehaviour
 
 			foreach (Edge edge in graph.Edges)
 			{
-				if ((edge.From == currentNode && edge.To == newNode) ||
-				    (edge.To == currentNode && edge.From == newNode))
+				if ((edge.From == currentNode && edge.To == newNode) || (edge.To == currentNode && edge.From == newNode))
 				{
 					add = false;
 				}
@@ -45,95 +62,9 @@ public class GraphCreator : MonoBehaviour
 			}
 
 			if (goIn)
-			{ 
+			{
 				CreateGraph(newNode);
 			}
-		}
-		add = true;
-		goIn = false;
-		if (!Occupied(currentNode.Position, Vector2.down))
-		{
-			Node newNode = new(currentNode.Position + Vector3.down);
-			if (!graph.Nodes.Contains(newNode))
-			{
-				graph.AddNode(newNode);
-				goIn = true;
-			}
-
-			foreach (Edge edge in graph.Edges)
-			{
-				if ((edge.From == currentNode && edge.To == newNode) ||
-				    (edge.To == currentNode && edge.From == newNode))
-				{
-					add = false;
-				}
-			}
-
-			if (add)
-			{
-				Edge e = new(currentNode, newNode);
-				graph.AddEdge(e);
-			}
-			if (goIn)
-				CreateGraph(newNode);
-		}
-
-		add = true;
-		goIn = false;
-		if (!Occupied(currentNode.Position, Vector2.up))
-		{
-			Node newNode = new(currentNode.Position + Vector3.up);
-			if (!graph.Nodes.Contains(newNode))
-			{
-				graph.AddNode(newNode);
-				goIn = true;
-			}
-
-			foreach (Edge edge in graph.Edges)
-			{
-				if ((edge.From == currentNode && edge.To == newNode) ||
-				    (edge.To == currentNode && edge.From == newNode))
-				{
-					add = false;
-				}
-			}
-
-			if (add)
-			{
-				Edge e = new(currentNode, newNode);
-				graph.AddEdge(e);
-			}
-			if (goIn)
-				CreateGraph(newNode);
-		}
-
-		add = true;
-		goIn = false;
-		if (!Occupied(currentNode.Position, Vector2.left))
-		{
-			Node newNode = new(currentNode.Position + Vector3.left);
-			if (!graph.Nodes.Contains(newNode))
-			{
-				graph.AddNode(newNode);
-				goIn = true;
-			}
-
-			foreach (Edge edge in graph.Edges)
-			{
-				if ((edge.From == currentNode && edge.To == newNode) ||
-				    (edge.To == currentNode && edge.From == newNode))
-				{
-					add = false;
-				}
-			}
-
-			if (add)
-			{
-				Edge e = new(currentNode, newNode);
-				graph.AddEdge(e);
-			}
-			if (goIn)
-				CreateGraph(newNode);
 		}
 	}
 	
