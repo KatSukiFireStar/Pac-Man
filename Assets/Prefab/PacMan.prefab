@@ -171,6 +171,7 @@ MonoBehaviour:
   directionEvent: {fileID: 11400000, guid: 424e40df5f693834697d1793ca0cb94e, type: 2}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
   positionEvent: {fileID: 11400000, guid: 681b9cbcd848525448bd848077e46d9b, type: 2}
+  ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
 --- !u!114 &1978617407024142717
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,12 +21,22 @@ public class PlayerMovement : MonoBehaviour
     private GameStateEventSO gameStateEvent;
     [SerializeField]
     private Vector2EventSO positionEvent;
+    [SerializeField]
+    private GameObjectEventSO ghostEvent;
     
     private void Awake()
     {
+        positionEvent.Value = transform.position;
         rb = GetComponent<Rigidbody2D>();
         directionEvent.PropertyChanged += DirectionEvent_PropertyChanged;
         gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+        ghostEvent.PropertyChanged += GhostEventOnPropertyChanged;
+    }
+
+    private void GhostEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        Vector2 position = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+        positionEvent.Value = position;
     }
 
     private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
