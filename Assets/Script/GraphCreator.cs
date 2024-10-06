@@ -57,6 +57,10 @@ public class GraphCreator : MonoBehaviour
 
 			if (add)
 			{
+				if (!goIn)
+				{
+					newNode = graph.GetNode(newNode.Position);
+				}
 				Edge e = new(currentNode, newNode);
 				graph.AddEdge(e);
 			}
