@@ -77,7 +77,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.1}
+  m_Size: {x: 0.01, y: 0.01}
   m_EdgeRadius: 0
 --- !u!114 &2247799762893593494
 MonoBehaviour:
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
 --- !u!212 &2901474716458432455
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -17,20 +17,37 @@ public class GhostMovement : MonoBehaviour
 	private Vector2EventSO positionEvent;
 	[SerializeField]
 	private GameObjectEventSO ghostEvent;
+	[SerializeField]
+	private GameStateEventSO gameStateEvent;
 	
 	private Graph graph;
 	private Rigidbody2D rb;
 	private Vector2 direction;
 	private Vector2 nextDirection = Vector2.zero;
 	private bool endGame = false;
-	private Dictionary<Node, int> distances;
-	private Dictionary<Node, Node> chemin;
+	private Dictionary<Vector2, int> distances;
+	private Vector2 defaultPosition;
 	
 	void Awake()
 	{
+		defaultPosition = transform.position;
 		rb = GetComponent<Rigidbody2D>();
 		graphEvent.PropertyChanged += GraphEventOnPropertyChanged;
 		ghostEvent.PropertyChanged += GhostEventOnPropertyChanged;
+		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+	}
+
+	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+	{
+		GenericEventSO<GameState> s = (GenericEventSO<GameState>)sender;
+		if (s.Value == GameState.EndGame || s.Value == GameState.Death)
+		{
+			endGame = true;
+		}else if (s.Value == GameState.Starting)
+		{
+			endGame = false;
+			transform.position = defaultPosition;
+		}
 	}
 
 	private void GhostEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -55,6 +72,9 @@ public class GhostMovement : MonoBehaviour
 
 	private void FindDirection()
 	{
+		if (endGame)
+			return;
+		
 		Vector2 position = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
 		Node source = graph.GetNode(position);
 		Node destination = graph.GetNode(positionEvent.Value);
@@ -95,8 +115,6 @@ public class GhostMovement : MonoBehaviour
 	private Vector2 Dijkstra(Node source, Node destination)
 	{
 		distances = new();
-		chemin = new();
-		Dictionary<Node, Node> previous = new();
 		List<Node> next = new();
 		List<Node> visited = new();
 
@@ -105,37 +123,30 @@ public class GhostMovement : MonoBehaviour
 			if (node == source) 
 				continue;
 			
-			distances[node] = int.MaxValue;
-			chemin[node] = null;
-			previous[node] = null;
+			distances[node.Position] = int.MaxValue;
 		}
 		
-		distances[source] = 0;
-		chemin[source] = source;
-		previous[source] = source;
+		distances[source.Position] = 0;
 		visited.Add(source);
 
 		Node current = source;
-		List<Node> n = new();
 		foreach (Edge edge in graph.Edges)
 		{
-			if (edge.From == current && !present(n, edge.To))
+			if (edge.From == current)
 			{
-				n.Add(edge.To);
+				if (!present(next, edge.To) && !present(visited, edge.To))
+				{
+					next.Add(edge.To);
+					distances[edge.To.Position] = distances[current.Position] + edge.Value;
+				}
 			}
-			else if (edge.To == current && !present(n, edge.From))
+			else if (edge.To == current)
 			{
-				n.Add(edge.From);
-			}
-		}
-
-		foreach (Node node in n)
-		{
-			if (!present(visited, node) && !present(visited, node))
-			{
-				next.Add(node);
-				distances[node] = distances[current] + 1;
-				previous[node] = current;
+				if (!present(next, edge.From) && !present(visited, edge.From))
+				{
+					next.Add(edge.From);
+					distances[edge.From.Position] = distances[current.Position] + edge.Value;
+				}
 			}
 		}
 
@@ -146,42 +157,56 @@ public class GhostMovement : MonoBehaviour
 			int distMin = int.MaxValue;
 			foreach (Node node in next)
 			{
-				if (distances[node] < distMin)
+				if (distances[node.Position] < distMin)
 				{
 					min = node;
-					distMin = distances[node];
+					distMin = distances[node.Position];
 				}
 			}
 			next.Remove(min);
 			visited.Add(min);
-			chemin[min] = current;
 			current = min;
-			n = new();
 			foreach (Edge edge in graph.Edges)
 			{
-				if (edge.From == current && !present(n, edge.To))
+				if (edge.From == current)
 				{
-					n.Add(edge.To);
+					if (!present(next, edge.To) && !present(visited, edge.To))
+					{
+						next.Add(edge.To);
+						distances[edge.To.Position] = distances[current.Position] + edge.Value;
+					}
 				}
-				else if (edge.To == current && !present(n, edge.From))
+				else if (edge.To == current)
 				{
-					n.Add(edge.From);
-				}
-			}
-
-			foreach (Node node in n)
-			{
-				if (!present(next, node) && !present(visited, node))
-				{
-					next.Add(node);
-					distances[node] = distances[current] + 1;
+					if (!present(next, edge.From) && !present(visited, edge.From))
+					{
+						next.Add(edge.From);
+						distances[edge.From.Position] = distances[current.Position] + edge.Value;
+					}
 				}
 			}
 		}
-		
-		while (chemin[current] != source)
+
+		bool end = false;
+		while (!end)
 		{
-			current = chemin[current];
+			foreach (Edge edge in graph.Edges)
+			{
+				if ((edge.To.Position == source.Position && edge.From.Position == current.Position) 
+				    || (edge.From.Position == source.Position && edge.To.Position == current.Position))
+				{
+					end = true;
+					break;
+				}
+				if(edge.To.Position == current.Position && distances[edge.From.Position] < distances[current.Position])
+				{
+					current = edge.From;
+				}
+				if (edge.From.Position == current.Position && distances[edge.To.Position] < distances[current.Position])
+				{
+					current = edge.To;
+				}
+			}
 		}
 		Vector2 dir = current.Position - source.Position;
 		return dir;

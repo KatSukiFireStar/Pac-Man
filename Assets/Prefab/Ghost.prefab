@@ -100,7 +100,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.25
 --- !u!95 &8524685964606126605
 Animator:
   serializedVersion: 5
@@ -171,6 +171,7 @@ MonoBehaviour:
     m_Bits: 512
   positionEvent: {fileID: 11400000, guid: 681b9cbcd848525448bd848077e46d9b, type: 2}
   ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
 --- !u!1 &6578477705961650247
 GameObject:
   m_ObjectHideFlags: 0
