@@ -19,14 +19,19 @@ public class GhostMovement : MonoBehaviour
 	private GameObjectEventSO ghostEvent;
 	[SerializeField]
 	private GameStateEventSO gameStateEvent;
+	[SerializeField]
+	private GameObjectVector2EventSO gameOverEvent;
 	
 	private Graph graph;
 	private Rigidbody2D rb;
 	private Vector2 direction;
 	private Vector2 nextDirection = Vector2.zero;
 	private bool endGame = false;
+	private bool chasing = false;
 	private Dictionary<Vector2, int> distances;
 	private Vector2 defaultPosition;
+	private bool dead = false;
+	private Vector2 deadDestination;
 	
 	void Awake()
 	{
@@ -35,6 +40,17 @@ public class GhostMovement : MonoBehaviour
 		graphEvent.PropertyChanged += GraphEventOnPropertyChanged;
 		ghostEvent.PropertyChanged += GhostEventOnPropertyChanged;
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+		gameOverEvent.PropertyChanged += GameOverEventOnPropertyChanged;
+	}
+
+	private void GameOverEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+	{
+		GenericEventSO<(GameObject, Vector2)> s = (GenericEventSO<(GameObject, Vector2)>)sender;
+		if (s.Value.Item1 == gameObject)
+		{
+			dead = true;
+			deadDestination = s.Value.Item2;
+		}
 	}
 
 	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -47,6 +63,12 @@ public class GhostMovement : MonoBehaviour
 		{
 			endGame = false;
 			transform.position = defaultPosition;
+		}else if (s.Value == GameState.Chasing)
+		{
+			chasing = true;
+		}else if (s.Value == GameState.Playing)
+		{
+			chasing = false;
 		}
 	}
 
@@ -76,15 +98,57 @@ public class GhostMovement : MonoBehaviour
 			return;
 		
 		Vector2 position = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+
+		if (dead && position == deadDestination)
+		{
+			dead = false;
+		}
+		
 		Node source = graph.GetNode(position);
-		Node destination = graph.GetNode(positionEvent.Value);
-		Vector2 dir = Dijkstra(source, destination);
-		Debug.Log(dir);
-		SetDirection(dir);
+		if (!dead)
+		{
+			Node destination = graph.GetNode(positionEvent.Value);
+			Vector2 dir = Dijkstra(source, destination);
+			if (!chasing)
+			{
+				SetDirection(dir);
+			}
+			else
+			{
+				if (!Occupied(position, -dir))
+				{
+					SetDirection(-dir);
+				}
+				else
+				{
+					if (!Occupied(position, new(dir.y, dir.x)))
+					{
+						SetDirection(new(dir.y, dir.x));
+					}
+					else if (!Occupied(position, new(-dir.y, -dir.x)))
+					{
+						SetDirection(new(-dir.y, -dir.x));
+					}
+				}
+			}
+		}
+		else
+		{
+			Node destination = graph.GetNode(deadDestination);
+			Vector2 dir = Dijkstra(source, destination);
+			SetDirection(dir);
+		}
+		
 	}
 
 	void Update()
 	{
+		if (dead && deadDestination ==
+		    new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)))
+		{
+			dead = false;
+		}
+		
 		if (nextDirection != Vector2.zero)
 		{
 			SetDirection(nextDirection);
@@ -229,6 +293,12 @@ public class GhostMovement : MonoBehaviour
 	{
 		RaycastHit2D hit = Physics2D.BoxCast(transform.position, Vector2.one * 0.75f, 0f, dir, 1.5f, obstacleLayer);
 		//Debug.Log(hit.collider != null);
+		return hit.collider != null;
+	}
+
+	private bool Occupied(Vector2 pos, Vector2 dir)
+	{
+		RaycastHit2D hit = Physics2D.BoxCast(pos, Vector2.one * 0.75f, 0f, dir, 1.5f, obstacleLayer);
 		return hit.collider != null;
 	}
 }

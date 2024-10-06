@@ -29,6 +29,7 @@ public class UpdateAnimator : MonoBehaviour
 		{
 			animator.SetBool("blue", true);
 			chasing = true;
+			animator.SetFloat("time", 30);
 		}else if (s.Value == GameState.Playing && gameObject.layer == LayerMask.NameToLayer("Ghost"))
 		{
 			animator.SetBool("blue", false);
@@ -51,7 +52,6 @@ public class UpdateAnimator : MonoBehaviour
 		if (animator.GetFloat("time") < -1)
 		{
 			chasing = false;
-			animator.SetFloat("time", 60);
 		}
 	}
 }

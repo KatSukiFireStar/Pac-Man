@@ -13,6 +13,9 @@ public class CollisionManager : MonoBehaviour
 	
 	[SerializeField]
 	private GameStateEventSO gameStateEvent;
+	
+	[SerializeField]
+	private GameObjectVector2EventSO gameOverEvent;
 
 	private bool chasing;
 
@@ -44,6 +47,7 @@ public class CollisionManager : MonoBehaviour
 			}
 			else
 			{
+				Debug.Log("Eat !");
 				Eat();
 			}
 		}
@@ -51,6 +55,6 @@ public class CollisionManager : MonoBehaviour
 
 	private void Eat()
 	{
-		throw new NotImplementedException();
+		gameOverEvent.Value = (gameObject, new(0, 3));
 	}
 }
