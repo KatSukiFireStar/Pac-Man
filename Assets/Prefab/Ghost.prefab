@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
+  ghostDirectionEvent: {fileID: 11400000, guid: ef40bfda46ff6a5408c5ad48ebadd264, type: 2}
 --- !u!114 &400786621547741955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,11 +171,12 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
+  iaType: 1
   positionEvent: {fileID: 11400000, guid: 681b9cbcd848525448bd848077e46d9b, type: 2}
   ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
   gameOverEvent: {fileID: 11400000, guid: 964ff506c7c5cd34a8902055d9502fd0, type: 2}
-  iaType: 1
+  ghostDirectionEvent: {fileID: 11400000, guid: ef40bfda46ff6a5408c5ad48ebadd264, type: 2}
 --- !u!1 &6578477705961650247
 GameObject:
   m_ObjectHideFlags: 0

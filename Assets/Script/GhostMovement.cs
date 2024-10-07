@@ -14,6 +14,10 @@ public class GhostMovement : MonoBehaviour
 	[SerializeField]
 	private LayerMask obstacleLayer;
 	[SerializeField]
+	private IAType iaType;
+	
+	[Header("Events")]
+	[SerializeField]
 	private Vector2EventSO positionEvent;
 	[SerializeField]
 	private GameObjectEventSO ghostEvent;
@@ -21,8 +25,9 @@ public class GhostMovement : MonoBehaviour
 	private GameStateEventSO gameStateEvent;
 	[SerializeField]
 	private GameObjectVector2EventSO gameOverEvent;
-	[SerializeField]
-	private IAType iaType;
+	[SerializeField] 
+	private GameObjectVector2EventSO ghostDirectionEvent;
+	
 	
 	private Graph graph;
 	private Rigidbody2D rb;
@@ -106,12 +111,11 @@ public class GhostMovement : MonoBehaviour
 		{
 			dead = false;
 		}
-		
+		Vector2 dir = new();
 		Node source = graph.GetNode(position);
 		if (!dead)
 		{
 			Node destination = graph.GetNode(positionEvent.Value);
-			Vector2 dir = new();
 			if (iaType == IAType.Dijkstra)
 			{
 				dir = Dijkstra(source, destination);
@@ -145,9 +149,10 @@ public class GhostMovement : MonoBehaviour
 		else
 		{
 			Node destination = graph.GetNode(deadDestination);
-			Vector2 dir = Dijkstra(source, destination);
+			dir = Dijkstra(source, destination);
 			SetDirection(dir);
 		}
+		ghostDirectionEvent.Value = (gameObject, dir);
 		
 	}
 
