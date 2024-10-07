@@ -174,6 +174,7 @@ MonoBehaviour:
   ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
   gameOverEvent: {fileID: 11400000, guid: 964ff506c7c5cd34a8902055d9502fd0, type: 2}
+  iaType: 1
 --- !u!1 &6578477705961650247
 GameObject:
   m_ObjectHideFlags: 0
