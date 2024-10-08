@@ -25,6 +25,8 @@ public class GhostMovement : MonoBehaviour
 	private GameStateEventSO gameStateEvent;
 	[SerializeField]
 	private GameObjectVector2EventSO gameOverEvent;
+	[SerializeField]
+	private GameObjectBoolEventSO gameOverBoolEvent;
 	[SerializeField] 
 	private GameObjectVector2EventSO ghostDirectionEvent;
 	
@@ -49,6 +51,7 @@ public class GhostMovement : MonoBehaviour
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 		gameOverEvent.PropertyChanged += GameOverEventOnPropertyChanged;
 	}
+	
 
 	private void GameOverEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
 	{
@@ -57,6 +60,7 @@ public class GhostMovement : MonoBehaviour
 		{
 			dead = true;
 			deadDestination = s.Value.Item2;
+			gameOverBoolEvent.Value = (gameObject, true);
 		}
 	}
 
@@ -162,6 +166,7 @@ public class GhostMovement : MonoBehaviour
 		    new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)))
 		{
 			dead = false;
+			gameOverBoolEvent.Value = (gameObject, false);
 		}
 		
 		if (nextDirection != Vector2.zero)

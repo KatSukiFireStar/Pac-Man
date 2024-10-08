@@ -12,8 +12,12 @@ public class UpdateAnimator : MonoBehaviour
 
 	[SerializeField] 
 	private GameObjectVector2EventSO ghostDirectionEvent;
+	
+	[SerializeField]
+	private GameObjectBoolEventSO gameOverEvent;
 
 	private bool chasing;
+	private bool death;
 	
 	private void Awake()
 	{
@@ -21,6 +25,26 @@ public class UpdateAnimator : MonoBehaviour
 		animator = gameObject.GetComponent<Animator>();
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 		ghostDirectionEvent.PropertyChanged += GhostDirectionEventOnPropertyChanged;
+		gameOverEvent.PropertyChanged += GameOverEventOnPropertyChanged;
+	}
+
+	private void GameOverEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+	{
+		GenericEventSO<(GameObject, bool)> s = (GenericEventSO<(GameObject, bool)>)sender;
+		if (s.Value.Item1 == gameObject)
+		{
+			if (s.Value.Item2)
+			{
+				animator.SetBool("blue", false);
+				animator.SetBool("death", true);
+				chasing = false;
+			}
+			else
+			{
+				animator.SetBool("death", false);
+			}
+			
+		}
 	}
 
 	private void GhostDirectionEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
