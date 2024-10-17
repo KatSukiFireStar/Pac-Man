@@ -85,6 +85,12 @@ public class UpdateAnimator : MonoBehaviour
 		else if (s.Value == GameState.Starting)
 		{
 			animator.enabled = true;
+			if (gameObject.layer == LayerMask.NameToLayer("Ghost"))
+			{
+				animator.SetBool("blue", false);
+				chasing = false;
+				animator.SetBool("death", false);
+			}
 		}
 	}
 

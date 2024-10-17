@@ -145,7 +145,7 @@ public class GhostMovement : MonoBehaviour
 
 		if (!spawn)
 		{
-			direction = Vector2.zero;
+			direction = Vector2.left;
 			return;
 		}
 			
@@ -265,10 +265,16 @@ public class GhostMovement : MonoBehaviour
 
 		if (!spawn)
 		{
-			if(transform.position.x <= -2.5f)
-				SetDirection(Vector2.right);
+			if (transform.position.x <= -2.5f)
+			{
+				direction = Vector2.right;
+				ghostDirectionEvent.Value = (gameObject, direction);
+			}
 			else if (transform.position.x >= 1.5f)
-				SetDirection(Vector2.left);
+			{
+				direction = Vector2.left;
+				ghostDirectionEvent.Value = (gameObject, direction);
+			}
 		}
 		
 		if (nextDirection != Vector2.zero)
