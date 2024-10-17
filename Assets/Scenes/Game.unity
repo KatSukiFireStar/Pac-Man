@@ -5076,6 +5076,7 @@ MonoBehaviour:
   timmerBetweenSpawn: 10
   ghostSpawnEvent: {fileID: 11400000, guid: ae0385f9b9ca52348833b3b581ec5a55, type: 2}
   ghostUnspawnEvent: {fileID: 11400000, guid: 9fe375a84e9a58541b61236da71df1af, type: 2}
+  gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
 --- !u!1 &1511829430
 GameObject:
   m_ObjectHideFlags: 0
