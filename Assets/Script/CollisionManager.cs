@@ -16,6 +16,9 @@ public class CollisionManager : MonoBehaviour
 	
 	[SerializeField]
 	private GameObjectVector2EventSO gameOverEvent;
+	
+	[SerializeField]
+	private GameObjectsBoolsEventSO gameObjectsBoolsEvent;
 
 	private bool chasing;
 
@@ -30,6 +33,10 @@ public class CollisionManager : MonoBehaviour
 		GenericEventSO<GameState> s = (GenericEventSO<GameState>) sender;
 		if (s.Value == GameState.Chasing)
 		{
+			if (!gameObjectsBoolsEvent.Value[gameObject])
+			{
+				return;
+			}
 			chasing = true;
 		}else if (s.Value == GameState.Playing)
 		{

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using EventSystem.SO;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class UpdateAnimator : MonoBehaviour
 	
 	[SerializeField]
 	private GameObjectBoolEventSO gameOverEvent;
+	
+	[SerializeField]
+	private GameObjectsBoolsEventSO gameObjectsBoolsEvent;
 
 	private bool chasing;
 	private bool death;
@@ -66,6 +70,11 @@ public class UpdateAnimator : MonoBehaviour
 			animator.enabled = false;
 		}else if (s.Value == GameState.Chasing && gameObject.layer == LayerMask.NameToLayer("Ghost"))
 		{
+			if (!gameObjectsBoolsEvent.Value[gameObject])
+			{
+				return;
+			}
+			
 			animator.SetBool("blue", true);
 			chasing = true;
 			animator.SetFloat("time", 30);

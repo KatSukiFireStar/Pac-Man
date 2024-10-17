@@ -32,7 +32,12 @@ public class GhostMovement : MonoBehaviour
 	private GameObjectBoolEventSO gameOverBoolEvent;
 	[SerializeField] 
 	private GameObjectVector2EventSO ghostDirectionEvent;
-	
+	[SerializeField] 
+	private GameObjectEventSO ghostSpawnEvent;
+	[SerializeField] 
+	private GameObjectEventSO ghostUnspawnEvent;
+	[SerializeField]
+	private GameObjectsBoolsEventSO gameObjectsBoolsEvent;
 	
 	private Graph graph;
 	private Rigidbody2D rb;
@@ -44,17 +49,37 @@ public class GhostMovement : MonoBehaviour
 	private Vector2 defaultPosition;
 	private bool dead = false;
 	private Vector2 deadDestination;
+	private bool defaultSpawn;
 	
 	void Awake()
 	{
 		defaultPosition = transform.position;
 		rb = GetComponent<Rigidbody2D>();
+		defaultSpawn = spawn;
 		graphEvent.PropertyChanged += GraphEventOnPropertyChanged;
 		ghostEvent.PropertyChanged += GhostEventOnPropertyChanged;
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 		gameOverEvent.PropertyChanged += GameOverEventOnPropertyChanged;
+		ghostSpawnEvent.PropertyChanged += GhostSpawnEventOnPropertyChanged;
+		if (!spawn)
+		{
+			SetDirection(Vector2.left);
+		}
+		else
+			gameObjectsBoolsEvent.Value = new();
 	}
-	
+
+
+	private void GhostSpawnEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+	{
+		GenericEventSO<GameObject> s = (GenericEventSO<GameObject>)sender;
+		if (s.Value == gameObject)
+		{
+			direction = Vector2.zero;
+			Spawn();
+		}
+	}
+
 
 	private void GameOverEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
 	{
@@ -76,11 +101,14 @@ public class GhostMovement : MonoBehaviour
 			endGame = true;
 		}else if (s.Value == GameState.Starting)
 		{
+			spawn = defaultSpawn;
 			endGame = false;
 			transform.position = defaultPosition;
 			FindDirection();
 		}else if (s.Value == GameState.Chasing)
 		{
+			if (!spawn)
+				return;
 			chasing = true;
 			FindDirection();
 		}else if (s.Value == GameState.Playing)
@@ -106,6 +134,7 @@ public class GhostMovement : MonoBehaviour
 
 	private void Start()
 	{
+		gameObjectsBoolsEvent.Value[gameObject] = spawn;
 		FindDirection();
 	}
 
@@ -211,22 +240,35 @@ public class GhostMovement : MonoBehaviour
 	{
 		StartCoroutine(ForceMove(transform.position, new(-0.5f, transform.position.y - 3), new(0,-1)));
 		spawn = false;
+		dead = false;
+		chasing = false;
 		nextDirection = Vector2.zero;
+		ghostUnspawnEvent.Value = gameObject;
+		gameObjectsBoolsEvent.Value[gameObject] = spawn;
 	}
 
 	private void Spawn()
 	{
-		StartCoroutine(ForceMove(transform.position, new(-0.5f, transform.position.y + 3), new(0,1)));
+		StartCoroutine(ForceMove(transform.position, new(-0.5f,  3), new(0,1)));
 		spawn = true;
+		gameObjectsBoolsEvent.Value[gameObject] = spawn;
 	}
 
 	void Update()
 	{
-		if (dead && deadDestination ==
+		if (dead && spawn && deadDestination ==
 		    new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)))
 		{
 			gameOverBoolEvent.Value = (gameObject, false);
 			Unspawn();
+		}
+
+		if (!spawn)
+		{
+			if(transform.position.x <= -2.5f)
+				SetDirection(Vector2.right);
+			else if (transform.position.x >= 1.5f)
+				SetDirection(Vector2.left);
 		}
 		
 		if (nextDirection != Vector2.zero)

@@ -15,6 +15,9 @@ public class GhostSetMaterial : MonoBehaviour
 	[SerializeField] 
 	private GameObjectBoolEventSO gameOverEvent;
 
+	[SerializeField]
+	private GameObjectsBoolsEventSO gameObjectsBoolsEvent;
+
 	private void Awake()
 	{
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
@@ -38,6 +41,11 @@ public class GhostSetMaterial : MonoBehaviour
 		GenericEventSO<GameState> s = (GenericEventSO<GameState>)sender;
 		if (s.Value == GameState.Chasing)
 		{
+			if (!gameObjectsBoolsEvent.Value[transform.parent.gameObject])
+			{
+				return;
+			}
+			
 			GetComponent<SpriteRenderer>().color = Color.white;
 		}else if (s.Value == GameState.Playing)
 		{
