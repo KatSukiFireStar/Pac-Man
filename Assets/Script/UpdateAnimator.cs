@@ -24,8 +24,10 @@ public class UpdateAnimator : MonoBehaviour
 		chasing = false;
 		animator = gameObject.GetComponent<Animator>();
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
-		ghostDirectionEvent.PropertyChanged += GhostDirectionEventOnPropertyChanged;
-		gameOverEvent.PropertyChanged += GameOverEventOnPropertyChanged;
+		if (ghostDirectionEvent != null)
+			ghostDirectionEvent.PropertyChanged += GhostDirectionEventOnPropertyChanged;
+		if(gameOverEvent != null)
+			gameOverEvent.PropertyChanged += GameOverEventOnPropertyChanged;
 	}
 
 	private void GameOverEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)

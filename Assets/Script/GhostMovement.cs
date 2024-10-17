@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using EventSystem.SO;
@@ -15,6 +16,8 @@ public class GhostMovement : MonoBehaviour
 	private LayerMask obstacleLayer;
 	[SerializeField]
 	private IAType iaType;
+	[SerializeField]
+	private bool spawn = false;
 	
 	[Header("Events")]
 	[SerializeField]
@@ -61,6 +64,7 @@ public class GhostMovement : MonoBehaviour
 			dead = true;
 			deadDestination = s.Value.Item2;
 			gameOverBoolEvent.Value = (gameObject, true);
+			FindDirection();
 		}
 	}
 
@@ -78,6 +82,7 @@ public class GhostMovement : MonoBehaviour
 		}else if (s.Value == GameState.Chasing)
 		{
 			chasing = true;
+			FindDirection();
 		}else if (s.Value == GameState.Playing)
 		{
 			chasing = false;
@@ -108,6 +113,13 @@ public class GhostMovement : MonoBehaviour
 	{
 		if (endGame)
 			return;
+
+		if (!spawn)
+		{
+			direction = Vector2.zero;
+			return;
+		}
+			
 		
 		Vector2 position = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
 
@@ -159,14 +171,62 @@ public class GhostMovement : MonoBehaviour
 		ghostDirectionEvent.Value = (gameObject, dir);
 		
 	}
+	
+	private float moveTime = 1f;
+	
+	private IEnumerator ForceMove(Vector2 position, Vector2 destination, Vector2 direction)
+	{
+		float nextMove = 0f;
+		Vector2 dir;
+		if (position.x < destination.x)
+		{
+			dir = Vector2.right;
+		}
+		else
+		{
+			dir = Vector2.left;
+		}
+		ghostDirectionEvent.Value = (gameObject, dir);
+		while (nextMove < 0.5f)
+		{
+			transform.position = Vector2.Lerp(position, new(destination.x, position.y), nextMove / moveTime);
+			nextMove += Time.deltaTime;
+			yield return null;
+		}
+		
+		ghostDirectionEvent.Value = (gameObject, direction);
+		nextMove = 0f;
+		while (nextMove < moveTime)
+		{
+			transform.position = Vector2.Lerp(new(destination.x, position.y), destination, nextMove / moveTime);
+			nextMove += Time.deltaTime;
+			yield return null;
+		}
+
+		transform.position = destination;
+		FindDirection();
+	}
+
+	private void Unspawn()
+	{
+		StartCoroutine(ForceMove(transform.position, new(-0.5f, transform.position.y - 3), new(0,-1)));
+		spawn = false;
+		nextDirection = Vector2.zero;
+	}
+
+	private void Spawn()
+	{
+		StartCoroutine(ForceMove(transform.position, new(-0.5f, transform.position.y + 3), new(0,1)));
+		spawn = true;
+	}
 
 	void Update()
 	{
 		if (dead && deadDestination ==
 		    new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y)))
 		{
-			dead = false;
 			gameOverBoolEvent.Value = (gameObject, false);
+			Unspawn();
 		}
 		
 		if (nextDirection != Vector2.zero)

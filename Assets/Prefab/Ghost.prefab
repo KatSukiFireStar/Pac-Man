@@ -173,6 +173,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   iaType: 1
+  spawn: 1
   positionEvent: {fileID: 11400000, guid: 681b9cbcd848525448bd848077e46d9b, type: 2}
   ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
@@ -362,3 +363,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 0}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
+  gameOverEvent: {fileID: 11400000, guid: 3c01bd974101b7f41856de340eb50809, type: 2}
