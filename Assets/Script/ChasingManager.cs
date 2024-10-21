@@ -28,7 +28,7 @@ public class ChasingManager : MonoBehaviour
 		{
 			chasing = true;
 			chasingTimer = 30f;
-		}else if (s.Value == GameState.Playing)
+		}else if (s.Value == GameState.Playing || s.Value == GameState.Starting)
 		{
 			chasing = false;
 		}

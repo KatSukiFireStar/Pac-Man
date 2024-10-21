@@ -105,6 +105,7 @@ public class GhostMovement : MonoBehaviour
 			spawn = defaultSpawn;
 			endGame = false;
 			chasing = false;
+			dead = false;
 			gameObjectsBoolsEvent.Value[gameObject] = spawn;
 			FindDirection();
 		}else if (s.Value == GameState.Chasing)

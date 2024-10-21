@@ -38,7 +38,7 @@ public class CollisionManager : MonoBehaviour
 				return;
 			}
 			chasing = true;
-		}else if (s.Value == GameState.Playing)
+		}else if (s.Value == GameState.Playing || s.Value == GameState.Starting)
 		{
 			chasing = false;
 		}
