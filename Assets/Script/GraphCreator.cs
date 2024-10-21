@@ -1,3 +1,4 @@
+using System;
 using EventSystem.SO;
 using UnityEngine;
 
@@ -22,7 +23,10 @@ public class GraphCreator : MonoBehaviour
 		// (bool, Edge, Edge) a = graph.DuplicateEdge();
 		// if (a.Item1)
 		// 	Debug.Log(a.Item1 + " " + a.Item2.ToString() + " " + a.Item3.ToString());
+	}
 
+	private void Start()
+	{
 		graphEvent.Value = graph;
 	}
 

@@ -12,7 +12,8 @@ public class UpdateActive : MonoBehaviour
 	void Awake()
 	{
 		gameStateEventSO.PropertyChanged += GameStateEventSOOnPropertyChanged;
-		gameObject.SetActive(false);
+		if(stateToUpdate != GameState.Starting)
+			gameObject.SetActive(false);
 	}
 
 	private void GameStateEventSOOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -24,7 +25,7 @@ public class UpdateActive : MonoBehaviour
 		}else if (s.Value == GameState.EndGame && stateToUpdate == GameState.EndGame)
 		{
 			gameObject.SetActive(true);
-		}else if (s.Value == GameState.Playing && stateToUpdate == GameState.Playing)
+		}else if (s.Value == GameState.Starting && stateToUpdate == GameState.Starting)
 		{
 			gameObject.SetActive(true);
 		}

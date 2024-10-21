@@ -9,8 +9,6 @@ using UnityEngine;
 public class GhostMovement : MonoBehaviour
 {
 	[SerializeField]
-	private GraphEventSO graphEvent;
-	[SerializeField]
 	private int speed = 1;
 	[SerializeField]
 	private LayerMask obstacleLayer;
@@ -20,6 +18,8 @@ public class GhostMovement : MonoBehaviour
 	private bool spawn = false;
 	
 	[Header("Events")]
+	[SerializeField]
+	private GraphEventSO graphEvent;
 	[SerializeField]
 	private Vector2EventSO positionEvent;
 	[SerializeField]
@@ -101,9 +101,11 @@ public class GhostMovement : MonoBehaviour
 			endGame = true;
 		}else if (s.Value == GameState.Starting)
 		{
+			transform.position = defaultPosition;
 			spawn = defaultSpawn;
 			endGame = false;
-			transform.position = defaultPosition;
+			chasing = false;
+			gameObjectsBoolsEvent.Value[gameObject] = spawn;
 			FindDirection();
 		}else if (s.Value == GameState.Chasing)
 		{
@@ -130,12 +132,12 @@ public class GhostMovement : MonoBehaviour
 	{
 		GenericEventSO<Graph> s = (GenericEventSO<Graph>)sender;
 		graph = s.Value;
+		FindDirection();
 	}
 
 	private void Start()
 	{
 		gameObjectsBoolsEvent.Value[gameObject] = spawn;
-		FindDirection();
 	}
 
 	private void FindDirection()
@@ -197,6 +199,7 @@ public class GhostMovement : MonoBehaviour
 			dir = Dijkstra(source, destination);
 			SetDirection(dir);
 		}
+		
 		ghostDirectionEvent.Value = (gameObject, dir);
 		
 	}
@@ -236,6 +239,13 @@ public class GhostMovement : MonoBehaviour
 		FindDirection();
 	}
 
+	private IEnumerator ForceMoveSpawn(Vector2 position, Vector2 destination, Vector2 direction)
+	{
+		yield return ForceMove(position, destination, direction);
+		spawn = true;
+		gameObjectsBoolsEvent.Value[gameObject] = spawn;
+	}
+	
 	private void Unspawn()
 	{
 		StartCoroutine(ForceMove(transform.position, new(-0.5f, transform.position.y - 3), new(0,-1)));
@@ -249,9 +259,7 @@ public class GhostMovement : MonoBehaviour
 
 	private void Spawn()
 	{
-		StartCoroutine(ForceMove(transform.position, new(-0.5f,  3), new(0,1)));
-		spawn = true;
-		gameObjectsBoolsEvent.Value[gameObject] = spawn;
+		StartCoroutine(ForceMoveSpawn(transform.position, new(-0.5f,  3), new(0,1)));
 	}
 
 	void Update()

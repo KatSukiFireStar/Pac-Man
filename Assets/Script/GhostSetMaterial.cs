@@ -47,7 +47,7 @@ public class GhostSetMaterial : MonoBehaviour
 			}
 			
 			GetComponent<SpriteRenderer>().color = Color.white;
-		}else if (s.Value == GameState.Playing)
+		}else if (s.Value == GameState.Playing || s.Value == GameState.Starting)
 		{
 			GetComponent<SpriteRenderer>().color = material.color;
 		}

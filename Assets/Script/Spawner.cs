@@ -21,13 +21,18 @@ public class Spawner : MonoBehaviour
 	private float timer;
 	private List<GameObject> ghostsBegining = new();
 	private bool endGame = false;
-	
-	private void Start()
+
+	private void Awake()
 	{
-		ghostsBegining = ghosts;
-		timer = timmerBetweenSpawn;
 		ghostUnspawnEvent.PropertyChanged += GhostUnspawnEventOnPropertyChanged;
 		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+	}
+
+	private void Start()
+	{
+		ghostsBegining = new();
+		ghostsBegining.AddRange(ghosts);
+		timer = timmerBetweenSpawn;
 	}
 
 	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -35,7 +40,9 @@ public class Spawner : MonoBehaviour
 		GenericEventSO<GameState> s = (GenericEventSO<GameState>)sender;
 		if (s.Value == GameState.Starting)
 		{
-			ghosts = ghostsBegining;
+			ghosts = new();
+			ghosts.AddRange(ghostsBegining);
+			timer = timmerBetweenSpawn;
 			endGame = false;
 		}else if (s.Value == GameState.Death || s.Value == GameState.EndGame)
 		{

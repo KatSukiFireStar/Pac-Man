@@ -22,13 +22,17 @@ public class PlayerInput : MonoBehaviour
 	private bool endGame;
 	private Vector2 defaultPosition;
 
+	private void Awake()
+	{
+		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+	}
+
 	void Start()
 	{
 		endGame = false;
 		defaultPosition = transform.position;
 		directionButton[2].Trigger();
 		gameStateButton.Trigger();
-		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 	}
 
 	private void Reset()
@@ -36,7 +40,7 @@ public class PlayerInput : MonoBehaviour
 		transform.position = defaultPosition;
 		endGame = false;
 		directionButton[2].Trigger();
-		gameStateButton.Trigger();
+		// gameStateButton.Trigger();
 	}
 	
 	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)

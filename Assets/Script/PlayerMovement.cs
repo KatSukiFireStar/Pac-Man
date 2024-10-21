@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         }else if (s.Value == GameState.Starting)
         {
             endGame = false;
+            positionEvent.Value = transform.position;
         }
     }
 
