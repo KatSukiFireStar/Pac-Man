@@ -65,7 +65,13 @@ public class UpdateAnimator : MonoBehaviour
 	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
 	{
 		GenericEventSO<GameState> s = (GenericEventSO<GameState>)sender;
-		if (s.Value == GameState.EndGame || s.Value == GameState.Death)
+		if (s.Value == GameState.EndGame)
+		{
+			animator.enabled = false;
+		}else if (s.Value == GameState.Death && gameObject.layer == LayerMask.NameToLayer("Player"))
+		{
+			animator.SetBool("death", true);
+		}else if (s.Value == GameState.Death && gameObject.layer == LayerMask.NameToLayer("Ghost"))
 		{
 			animator.enabled = false;
 		}else if (s.Value == GameState.Chasing && gameObject.layer == LayerMask.NameToLayer("Ghost"))
@@ -85,11 +91,11 @@ public class UpdateAnimator : MonoBehaviour
 		else if (s.Value == GameState.Starting)
 		{
 			animator.enabled = true;
+			animator.SetBool("death", false);
 			if (gameObject.layer == LayerMask.NameToLayer("Ghost"))
 			{
 				animator.SetBool("blue", false);
 				chasing = false;
-				animator.SetBool("death", false);
 			}
 		}
 	}

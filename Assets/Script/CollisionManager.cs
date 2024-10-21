@@ -62,6 +62,9 @@ public class CollisionManager : MonoBehaviour
 
 	private void Eat()
 	{
-		gameOverEvent.Value = (gameObject, new(0, 3));
+		if(transform.position.x <= -1)
+			gameOverEvent.Value = (gameObject, new(-1, 3));
+		else if(transform.position.x >= 0)
+			gameOverEvent.Value = (gameObject, new(0, 3));
 	}
 }

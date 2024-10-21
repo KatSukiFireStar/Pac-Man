@@ -11745,6 +11745,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019660697}
   m_CullTransparentMesh: 1
+--- !u!1 &2090891097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2090891099}
+  - component: {fileID: 2090891098}
+  m_Layer: 0
+  m_Name: Fruits Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2090891098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090891097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd476aac317cda46a98c3a780c56140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fruits:
+  - {fileID: 7463138683003617963, guid: 226ab6e32ce766f43a93131b1183df71, type: 3}
+  - {fileID: 4249365406304499365, guid: 4e32f59b51ccb3f449783764bf315f6e, type: 3}
+  - {fileID: 417254399704581270, guid: af0162fa4f369fa48bd84623ccec0f56, type: 3}
+  timeBetweenSpawns: 10
+--- !u!4 &2090891099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090891097}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7069373688245895653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11818,3 +11867,4 @@ SceneRoots:
   - {fileID: 494718608}
   - {fileID: 245851269}
   - {fileID: 1490909812}
+  - {fileID: 2090891099}

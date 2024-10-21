@@ -11,7 +11,8 @@ public class EatPellet : MonoBehaviour
 
 	void Awake()
 	{
-		gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
+		if(gameStateEvent != null)
+			gameStateEvent.PropertyChanged += GameStateEventOnPropertyChanged;
 	}
 
 	private void GameStateEventOnPropertyChanged(object sender, PropertyChangedEventArgs e)
