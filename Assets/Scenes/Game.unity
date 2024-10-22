@@ -3654,6 +3654,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400786621547741955, guid: 79be428fa28220e4baf0f239dd91ef91, type: 3}
+      propertyPath: iaType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400786621547741955, guid: 79be428fa28220e4baf0f239dd91ef91, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -4793,12 +4797,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'You have eat all the pellet !
+  m_Text: 'You ate all the pellet !
 
     Good Job !
 
-    Do you want to play
-    again ?'
+    Do you want to play again
+    ?'
 --- !u!222 &1200772194
 CanvasRenderer:
   m_ObjectHideFlags: 0

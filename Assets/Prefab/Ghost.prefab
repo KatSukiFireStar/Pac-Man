@@ -169,13 +169,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d941bf31676156e4e86c8b2dba177e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphEvent: {fileID: 11400000, guid: 61d7da0844c79e3439f325ae7875817f, type: 2}
   speed: 5
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  iaType: 0
+  iaType: 1
   spawn: 1
+  graphEvent: {fileID: 11400000, guid: 61d7da0844c79e3439f325ae7875817f, type: 2}
   positionEvent: {fileID: 11400000, guid: 681b9cbcd848525448bd848077e46d9b, type: 2}
   ghostEvent: {fileID: 11400000, guid: 581da715d99d8f54494f2be9cdd831e3, type: 2}
   gameStateEvent: {fileID: 11400000, guid: 61c39aae966449942ab2f64f502a8269, type: 2}
